@@ -1,0 +1,49 @@
+# Output settings
+output:
+  base_dir: "../data/output"              # Relative to skeleton_pipeline/
+  use_timestamp: true                     # Auto-generate timestamped subdirectory
+
+# Step 1: Normalize
+normalize:
+  normalize_method: minmax                # 'minmax' or 'percentile'
+  percentile_low: 0.0                     # For percentile method
+  percentile_high: 100.0                  # For percentile method
+
+# Step 2: Threshold
+threshold:
+  method: otsu                            # Thresholding method
+
+# Step 3: Clean (morphological operations)
+clean:
+  opening_radius: 1                       # 3D opening radius (0 to skip)
+  closing_radius: 2                       # 3D closing radius (0 to skip)
+  min_size: 64                            # Minimum object size in voxels
+
+# Step 4: Skeletonize (Kimimaro TEASAR algorithm)
+skeletonize:
+  teasar_params:
+    scale: 0.3                            # Invalidation radius = scale * DBF + const
+    const: 50                             # Constant term for invalidation radius
+    pdrf_scale: 100000                    # PDRF scaling factor
+    pdrf_exponent: 4                      # PDRF exponent (higher = more central)
+    soma_detection_threshold: 999999      # Set high to disable soma detection
+    soma_acceptance_threshold: 999999     # Set high to disable soma detection
+    soma_invalidation_scale: 2            # Soma invalidation scale
+    soma_invalidation_const: 300          # Soma invalidation constant
+    max_paths: null                       # Max paths (null = unlimited)
+  dust_threshold: 500                     # Remove components < this before skeletonization (voxels)
+  anisotropy: [1, 1, 1]                   # Voxel anisotropy
+  fix_branching: true                     # Fix branching artifacts
+  fix_borders: true                       # Fix border artifacts
+  progress: true                          # Show progress bar
+  parallel: 1                             # Number of parallel processes
+  postprocess_dust_threshold: 1000        # Remove skeleton fragments < this length
+  postprocess_tick_threshold: 0           # Remove terminal branches < this length
+  keep_largest_component_only: true       # Keep only largest connected component
+
+# Step 5: Analyze
+analyze:
+  output_json: true                       # Output JSON analysis file
+  output_labeled_tif: true                # Output RGB labeled TIF
+  output_length_tif: true                 # Output length grayscale TIF
+  branch_point_radius: 2                  # Radius for branch point markers
