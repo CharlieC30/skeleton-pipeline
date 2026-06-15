@@ -19,9 +19,7 @@ archive/
 
 # Data
 data/*
-!data/examples/
-data/examples/**/*.tif
-data/examples/**/*.tiff
+data/examples/
 
 # Pipeline output
 /output/
