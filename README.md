@@ -1,108 +1,105 @@
 # Skeleton Pipeline
 
-A complete pipeline for 3D image skeletonization and analysis.
+A 3D microscopy pipeline that extracts neurite skeletons from TIF volumes and measures trunk and branch lengths.
 
 ## Quick Start
 
 1. Clone the repository
 ```bash
-git clone https://github.com/CharlieC30/Skeletonization.git
-cd Skeletonization
+git clone https://github.com/CharlieC30/skeleton-pipeline.git
+cd skeleton-pipeline
 ```
 
 2. Create conda environment and install dependencies
 ```bash
-conda create -n skeleton python=3.9
-conda activate skeleton
-cd skeleton_python/skeleton_pipeline
+conda create -n skeleton-pipeline python=3.10
+conda activate skeleton-pipeline
 pip install -r requirements.txt
 ```
 
 3. Download sample data from [Google Drive](https://drive.google.com/drive/folders/1w4wIAczOLmvhfEuUUNyLAlcUoYi9cey5)
-   - `example_input/` - place in `skeleton_python/DATA/`
-   - `example_output/` - reference output (optional)
+   - Place `sample_input.tif` in `data/examples/input/`
+   - Example outputs are also available there for reference
 
 4. Run the pipeline
 ```bash
-python run.py --input ../DATA/example_input/sample_input.tif
+python -m skeleton_pipeline --input data/examples/input/sample_input.tif
 ```
 
-Output will be saved to `skeleton_python/output/YYYYMMDD_HHMMSS/`.
-
----
-
-## Features
-
-- Automatic 3D skeleton extraction from TIF images
-- Main trunk and branch point detection
-- Length analysis with labeled output
-- Configurable parameters via YAML files
-
----
+Output will be saved to `data/output/YYYYMMDD_HHMMSS/`.
 
 ## Usage
 
 ### Basic usage
-Uses `config/config_sample.yaml` by default.
+
+Uses `skeleton_pipeline/config/examples.yaml` by default.
 ```bash
-python run.py --input ../DATA/your_image.tif
+python -m skeleton_pipeline --input data/examples/input/sample_input.tif
 ```
 
 ### Use custom config
 ```bash
-python run.py --input ../DATA/your_image.tif --config config/config_filopodia.yaml
+python -m skeleton_pipeline --input data/examples/input/sample_input.tif --config your_config.yaml
 ```
 
 ### Show all options
 ```bash
-python run.py --help
+python -m skeleton_pipeline --help
 ```
-
----
 
 ## Pipeline Steps
 
 | Step | Name | Description |
 |------|------|-------------|
-| 1 | Format conversion | Normalize TIF and convert to uint8 |
-| 2 | Otsu thresholding | Binarize using Otsu's method |
-| 3 | Mask cleaning | Morphological operations |
-| 4 | Skeletonization | Extract skeleton using Kimimaro |
-| 5 | Length analysis | Analyze main trunk and branches |
+| 1 | Normalize | Normalize TIF and convert to uint8 |
+| 2 | Threshold | Binarize using Otsu's method |
+| 3 | Clean | Morphological operations |
+| 4 | Skeletonize | Extract skeleton using Kimimaro |
+| 5 | Analyze | Analyze main trunk and branches |
 
----
+```mermaid
+graph LR
+    A[Input TIF] --> B[Normalize]
+    B --> C[Threshold]
+    C --> D[Clean]
+    D --> E[Skeletonize]
+    E --> F[Analyze]
+```
 
 ## Output Structure
 
 ```
-output/YYYYMMDD_HHMMSS/
-├── config_used.yaml     # Config backup
-├── 01_format/           # Normalized TIF
-├── 02_otsu/             # Binary masks
-├── 03_cleaned/          # Cleaned masks
-├── 04_skeleton/         # SWC + skeleton TIF
-└── 05_analysis/         # JSON + labeled TIF
+data/output/YYYYMMDD_HHMMSS/
+    config_used.yaml     # Config backup
+    01_normalize/        # Normalized TIF
+    02_threshold/        # Binary masks
+    03_clean/            # Cleaned masks
+    04_skeletonize/      # SWC + skeleton TIF
+    05_analyze/          # JSON + summary TXT + labeled TIF + length TIF
 ```
----
 
 ## Demo
 
 | Input Image |
 |:---:|
-| ![Input](skeleton_python/output/example_output_projections/sample_input_projections.gif) |
+| ![Input](docs/assets/demo_input.gif) |
 
 | Skeleton Extraction |
 |:---:|
-| ![Skeleton](skeleton_python/output/example_output_projections/sample_input_otsu_cleaned_label_1_projections.gif) |
+| ![Skeleton](docs/assets/demo_skeleton.gif) |
 
 | Labeled Structure |
 |:---:|
-| ![Labeled](skeleton_python/output/example_output_projections/sample_input_otsu_cleaned_label_1_labeled_projections.gif) |
+| ![Labeled](docs/assets/demo_labeled.gif) |
 
-**Colors**: White=trunk, Yellow=branch points, Green=longest branch, Cyan=other branches
+Colors: White = trunk, Yellow = branch points, Green = longest branch, Cyan = other branches
 
 | Length Map |
 |:---:|
-| ![Length](skeleton_python/output/example_output_projections/sample_input_otsu_cleaned_label_1_length_projections.gif) |
+| ![Length](docs/assets/demo_length.gif) |
 
-**Values**: 255=trunk, 1-254=branch length (pixels), 0=background
+Values: 255 = trunk, 1-254 = branch length (pixels), 0 = background
+
+#### License & Citation
+- License: GPL-3.0
+- William Silversmith, J. Alexander Bae, Peter H. Li, and A.M. Wilson, “seung-lab/kimimaro: Zenodo Release v1”. Zenodo, Sep. 29, 2021. doi: 10.5281/zenodo.5539913.
