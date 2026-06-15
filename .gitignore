@@ -1,29 +1,35 @@
-# Python cache
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Tools
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
 
 # IDE
 .vscode/
 
-# AI assistants
-CLAUDE.md
+# Archive
+archive/
 
-# Kimimaro: exclude all except scripts/
+# Data
+data/*
+!data/examples/
+data/examples/**/*.tif
+data/examples/**/*.tiff
+
+# Pipeline output
+/output/
+
+# Skeleton pipeline
+skeleton_pipeline/config/*
+!skeleton_pipeline/config/examples.yaml
+
+# Kimimaro
 kimimaro/*
 !kimimaro/scripts/
-
-# skeleton_python
-skeleton_python/old_pipeline/*
-skeleton_python/DATA/*
-!skeleton_python/DATA/example_input/*
-!skeleton_python/DATA/example_input/.gitkeep
-skeleton_python/output/*
-!skeleton_python/output/example_output/*
-!skeleton_python/output/example_output/.gitkeep
-!skeleton_python/output/example_output_projections/
-
-# other folders
-DATA
-segment/*
-skeleton_result_fiji/*
-skeleton_result_kimimaro/*
