@@ -80,9 +80,13 @@ data/output/YYYYMMDD_HHMMSS/
 
 ## Demo
 
-| Input Image |
+| Normalized |
 |:---:|
-| ![Input](docs/assets/demo_input.gif) |
+| ![Normalized](docs/assets/demo_normalized.gif) |
+
+| Cleaned Mask |
+|:---:|
+| ![Cleaned](docs/assets/demo_cleaned.gif) |
 
 | Skeleton Extraction |
 |:---:|
