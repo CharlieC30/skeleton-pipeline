@@ -80,10 +80,12 @@ data/output/YYYYMMDD_HHMMSS/
 
 ## Demo
 
+##### More test cases are in the [gallery](docs/gallery.md).
+
 | Normalized |
 |:---:|
 | ![Normalized](docs/assets/demo_normalized.gif) |
-
+<!--
 | Cleaned Mask |
 |:---:|
 | ![Cleaned](docs/assets/demo_cleaned.gif) |
@@ -91,7 +93,7 @@ data/output/YYYYMMDD_HHMMSS/
 | Skeleton Extraction |
 |:---:|
 | ![Skeleton](docs/assets/demo_skeleton.gif) |
-
+-->
 | Labeled Structure |
 |:---:|
 | ![Labeled](docs/assets/demo_labeled.gif) |
